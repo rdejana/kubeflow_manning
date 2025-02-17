@@ -1,0 +1,9 @@
+name: hello world
+description: hello world
+implementation:
+  container:
+    image: 'quay.io/rdejana/tf_hello:latest'
+    command: [
+      python3,
+      tf_hello.py,
+    ]

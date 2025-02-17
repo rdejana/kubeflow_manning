@@ -1,0 +1,17 @@
+FROM python:3.12-bullseye
+
+RUN pip install --upgrade pip &&  pip install tensorflow kfp kfserving
+
+RUN apt-get update && apt-get -y install sudo
+
+# add a user so as not to run as root
+ARG user_id
+RUN useradd -ms /bin/bash -u ${user_id} -g root -G sudo -p $(openssl passwd -1 password) dev
+RUN chown dev /home/dev
+
+WORKDIR /workspace/hello-world
+ENV PYTHONPATH /workspace/hello-world:$PYTHONPATH
+COPY tf_hello.py .
+
+# switch to default user
+USER dev
